@@ -1,0 +1,45 @@
+// schema.prisma
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Usuario {
+  id        String   @id @default(uuid())
+  nome      String
+  email     String   @unique
+  senha     String
+  role      String   @default("USER") // Para diferenciar admin de alunos
+  createdAt DateTime @default(now())
+
+  emprestimos Emprestimo[]
+}
+
+model Livro {
+  id          String   @id @default(uuid())
+  isbn        String   @unique
+  titulo      String
+  autor       String
+  capaUrl     String?
+  quantidade  Int      @default(1)
+  
+  emprestimos Emprestimo[]
+}
+
+model Emprestimo {
+  id             String    @id @default(uuid())
+  dataEmprestimo DateTime  @default(now())
+  dataDevolucao  DateTime?
+  status         String    @default("ATIVO") 
+  
+  usuario   Usuario @relation(fields: [usuarioId], references: [id])
+  usuarioId String
+
+  livro     Livro   @relation(fields: [livroId], references: [id])
+  livroId   String
+}
