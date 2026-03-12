@@ -72,7 +72,7 @@ app.get('/health', function (req, res) { return __awaiter(void 0, void 0, void 0
 }); });
 var PORT = 3001;
 app.listen(PORT, function () {
-    console.log("\uD83D\uDE80 Servidor a correr em http://localhost:".concat(PORT));
+    console.log("\uD83D\uDE80 Servidor funcionando em http://localhost:".concat(PORT));
 });
 app.get('/dashboard/stats', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, livros, alunos, emprestimos, error_2;

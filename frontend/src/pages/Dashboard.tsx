@@ -1,18 +1,19 @@
-import React, {useEffect, useState} from 'react';
-import {useNavigate} from 'react-router-dom';
-import {Container, Row, Col, Card, Button} from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import axios from 'axios';
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [stats, setStats] = useState({livros: 0, alunos: 0, emprestimos: 0});
+  const [stats, setStats] = useState({ livros: 0, alunos: 0, emprestimos: 0 });
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
         const token = localStorage.getItem('token');
         const res = await axios.get('http://localhost:3001/dashboard/stats', {
-          headers: {Authorization: `Bearer ${token}`},
+          headers: { Authorization: `Bearer ${token}` },
         });
         setStats(res.data);
       } catch (err) {
@@ -29,7 +30,7 @@ const Dashboard = () => {
         {/* Card de Livros */}
         <Col md={4} className="mb-3">
           <Card className="text-white bg-primary shadow border-0">
-            <Card.Body>
+            <Card.Body className="text-center">
               <Card.Title>Total de Livros</Card.Title>
               <h1 className="display-4">{stats.livros}</h1>
               <Button
@@ -45,7 +46,7 @@ const Dashboard = () => {
         {/* Card de Alunos */}
         <Col md={4} className="mb-3">
           <Card className="text-white bg-success shadow border-0">
-            <Card.Body>
+            <Card.Body className="text-center">
               <Card.Title>Alunos Cadastrados</Card.Title>
               <h1 className="display-4">{stats.alunos}</h1>
               <Button
@@ -57,16 +58,18 @@ const Dashboard = () => {
             </Card.Body>
           </Card>
         </Col>
-        <Col md={4}>
-          <Card className="text-center shadow-sm border-0 bg-primary text-white">
-            <Card.Body>
+        <Col md={4} className="mb-3">
+          <Card className="text-white bg-danger shadow border-0">
+            <Card.Body className="text-center">
               <Card.Title>Novo Empréstimo</Card.Title>
-              <Card.Text style={{fontSize: '2rem'}}>
+              <h1 className="display-4">
                 <i className="bi bi-journal-plus"></i>
-              </Card.Text>
+              </h1>
               <Button
-                variant="light"
-                onClick={() => navigate('/novo-emprestimo')}>
+                variant="outline-light"
+                size="sm"
+                onClick={() => navigate('/novo-emprestimo')}
+              >
                 Registrar Saída
               </Button>
             </Card.Body>
@@ -76,10 +79,14 @@ const Dashboard = () => {
         {/* Card de Empréstimos */}
         <Col md={4} className="mb-3">
           <Card className="text-white bg-warning shadow border-0">
-            <Card.Body>
+            <Card.Body className="text-center">
               <Card.Title>Empréstimos Ativos</Card.Title>
               <h1 className="display-4">{stats.emprestimos}</h1>
-              <Button variant="outline-light" size="sm" className="text-dark">
+              <Button
+                variant="outline-light"
+                size="sm"
+                onClick={() => navigate('/controle-emprestimos')}
+              >
                 Ver Prazos
               </Button>
             </Card.Body>

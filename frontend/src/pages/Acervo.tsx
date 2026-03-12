@@ -20,8 +20,8 @@ const Acervo = () => {
   useEffect(() => { carregarLivros(); }, []);
 
   // Filtro de busca simples no frontend
-  const livrosFiltrados = livros.filter((l: any) => 
-    l.titulo.toLowerCase().includes(busca.toLowerCase()) || 
+  const livrosFiltrados = livros.filter((l: any) =>
+    l.titulo.toLowerCase().includes(busca.toLowerCase()) ||
     l.isbn.includes(busca)
   );
 
@@ -56,9 +56,9 @@ const Acervo = () => {
           {livrosFiltrados.map((livro: any) => (
             <tr key={livro.id} className="align-middle">
               <td style={{ width: '80px' }}>
-                <Image 
-                  src={livro.capaUrl || 'https://via.placeholder.com/50x75?text=Sem+Capa'} 
-                  thumbnail 
+                <Image
+                  src={livro.capaUrl || 'https://via.placeholder.com/50x75?text=Sem+Capa'}
+                  thumbnail
                   style={{ width: '50px' }}
                 />
               </td>
@@ -69,7 +69,8 @@ const Acervo = () => {
               <td><Badge bg="secondary">{livro.isbn}</Badge></td>
               <td>{livro.quantidade}</td>
               <td className="text-center">
-                <Button variant="outline-success" size="sm" className="me-2">
+
+                <Button variant="outline-success" size="sm" onClick={() => navigate('/novo-emprestimo')}>
                   Emprestar
                 </Button>
                 <Button variant="outline-danger" size="sm">

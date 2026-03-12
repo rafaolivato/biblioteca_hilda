@@ -6,6 +6,7 @@ import Usuarios from './pages/Usuarios';
 import AdicionarLivro from './pages/AdicionarLivro';
 import Acervo from './pages/Acervo';
 import NovoEmprestimo from './pages/NovoEmprestimo'; 
+import ControleEmprestimos from './pages/ControleEmprestimos';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/adicionar-livro" element={<AdicionarLivro />} />
         <Route path="/acervo" element={<Acervo />} />
         <Route path="/novo-emprestimo" element={<NovoEmprestimo />} />
+        <Route path="/controle-emprestimos" element={<ControleEmprestimos />} />
         {/* Redireciona qualquer rota desconhecida para o login */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

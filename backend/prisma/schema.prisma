@@ -12,9 +12,10 @@ generator client {
 model Usuario {
   id        String   @id @default(uuid())
   nome      String
-  email     String   @unique
-  senha     String
-  role      String   @default("USER") // Para diferenciar admin de alunos
+  email     String?   @unique
+  ra        Int   @default(8)
+  senha     String  
+  role      String   @default("USER")
   createdAt DateTime @default(now())
 
   emprestimos Emprestimo[]
