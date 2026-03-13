@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import axios from 'axios';
+import logoHilda from '../assets/logo_hilda.jpg';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -25,7 +26,21 @@ const Dashboard = () => {
 
   return (
     <Container className="mt-4">
-      <h2 className="mb-4">Dashboard - Biblioteca Hilda</h2>
+      {/* Cabeçalho com logo */}
+      <div className="d-flex align-items-center mb-4 border-bottom pb-3">
+        <img
+          src={logoHilda}
+          alt="Logo Biblioteca Hilda"
+          style={{
+            height: '70px',
+            marginRight: '24px',
+          }}
+        />
+        <h2 className="fw-bold text-primary m-0">
+          Dashboard - Biblioteca Hilda
+        </h2>
+      </div>
+
       <Row>
         {/* Card de Livros */}
         <Col md={4} className="mb-3">
@@ -58,6 +73,8 @@ const Dashboard = () => {
             </Card.Body>
           </Card>
         </Col>
+
+        {/* Card de Novo Empréstimo */}
         <Col md={4} className="mb-3">
           <Card className="text-white bg-danger shadow border-0">
             <Card.Body className="text-center">
@@ -94,7 +111,7 @@ const Dashboard = () => {
         </Col>
       </Row>
 
-      {/* Sugestão: Espaço para a Busca (Em Análise) */}
+      {/* Sugestão: Espaço para a Busca */}
       <Row className="mt-5">
         <Col>
           <Card className="p-4 border-dashed">
@@ -103,7 +120,6 @@ const Dashboard = () => {
               Dica: Use o ISBN para encontrar livros instantaneamente via Google
               Books.
             </p>
-            {/* Aqui entrará o seu componente de busca no futuro */}
           </Card>
         </Col>
       </Row>

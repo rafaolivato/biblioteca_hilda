@@ -143,7 +143,7 @@ app.post('/livros', async (req, res) => {
 app.get('/usuarios/alunos', async (req, res) => {
   try {
     const alunos = await prisma.usuario.findMany({ 
-      where: { role: 'USER' },
+      where: { role: 'ALUNO' },
       select: {
         id: true,
         nome: true,

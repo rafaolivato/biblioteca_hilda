@@ -15,10 +15,10 @@ const Usuarios = () => {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [ra, setRa] = useState('');
-  
+
   const [carregando, setCarregando] = useState(false);
   const [mensagem, setMensagem] = useState({ tipo: '', texto: '' });
-  
+
   // Modal de exclusão
   const [showModal, setShowModal] = useState(false);
   const [usuarioParaExcluir, setUsuarioParaExcluir] = useState<Usuario | null>(null);
@@ -36,14 +36,14 @@ const Usuarios = () => {
     }
   };
 
-  useEffect(() => { 
-    fetchUsuarios(); 
+  useEffect(() => {
+    fetchUsuarios();
   }, []);
 
   // Cadastrar novo aluno
   const cadastrarAluno = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validação básica (apenas nome e RA)
     if (!nome || !ra) {
       setMensagem({ tipo: 'danger', texto: 'Nome e RA são obrigatórios!' });
@@ -51,24 +51,24 @@ const Usuarios = () => {
     }
 
     setCarregando(true);
-    
+
     try {
-      await axios.post('http://localhost:3001/usuarios', { 
-        nome, 
-        email: email || undefined, // Se email estiver vazio, não envia
-        ra, 
-        senha: '123456', // Senha padrão
-        role: 'USER' 
+      await axios.post('http://localhost:3001/usuarios', {
+        nome,
+        email: email || undefined,
+        ra: Number(ra),
+        senha: '123456',
+        role: 'ALUNO'
       });
-      
+
       setMensagem({ tipo: 'success', texto: 'Aluno cadastrado com sucesso!' });
-      setNome(''); 
+      setNome('');
       setEmail('');
       setRa('');
       fetchUsuarios();
-      
+
       setTimeout(() => setMensagem({ tipo: '', texto: '' }), 3000);
-      
+
     } catch (err: any) {
       const erro = err.response?.data?.error || 'Erro ao cadastrar aluno.';
       setMensagem({ tipo: 'danger', texto: erro });
@@ -80,9 +80,9 @@ const Usuarios = () => {
   // Função para excluir aluno
   const excluirAluno = async () => {
     if (!usuarioParaExcluir) return;
-    
+
     setCarregando(true);
-    
+
     try {
       await axios.delete(`http://localhost:3001/usuarios/${usuarioParaExcluir.id}`);
       setMensagem({ tipo: 'success', texto: 'Aluno excluído com sucesso!' });
@@ -103,23 +103,23 @@ const Usuarios = () => {
       {/* Card de Cadastro */}
       <Card className="p-4 mb-4 shadow-sm border-0">
         <h4 className="mb-4">📝 Cadastrar Novo Aluno</h4>
-        
+
         {mensagem.texto && (
           <Alert variant={mensagem.tipo} dismissible onClose={() => setMensagem({ tipo: '', texto: '' })}>
             {mensagem.texto}
           </Alert>
         )}
-        
+
         <Form onSubmit={cadastrarAluno}>
           <Row>
             <Col md={4}>
               <Form.Group className="mb-3">
                 <Form.Label>Nome Completo *</Form.Label>
-                <Form.Control 
-                  placeholder="Digite o nome completo" 
-                  value={nome} 
-                  onChange={e => setNome(e.target.value)} 
-                  required 
+                <Form.Control
+                  placeholder="Digite o nome completo"
+                  value={nome}
+                  onChange={e => setNome(e.target.value)}
+                  required
                   disabled={carregando}
                 />
               </Form.Group>
@@ -127,11 +127,11 @@ const Usuarios = () => {
             <Col md={3}>
               <Form.Group className="mb-3">
                 <Form.Label>RA *</Form.Label>
-                <Form.Control 
-                  placeholder="Nº de matrícula" 
-                  value={ra} 
-                  onChange={e => setRa(e.target.value)} 
-                  required 
+                <Form.Control
+                  placeholder="Nº de matrícula"
+                  value={ra}
+                  onChange={e => setRa(e.target.value)}
+                  required
                   disabled={carregando}
                 />
               </Form.Group>
@@ -139,19 +139,19 @@ const Usuarios = () => {
             <Col md={3}>
               <Form.Group className="mb-3">
                 <Form.Label>E-mail (opcional)</Form.Label>
-                <Form.Control 
-                  type="email" 
-                  placeholder="email@exemplo.com" 
-                  value={email} 
-                  onChange={e => setEmail(e.target.value)} 
+                <Form.Control
+                  type="email"
+                  placeholder="email@exemplo.com"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
                   disabled={carregando}
                 />
               </Form.Group>
             </Col>
             <Col md={2} className="d-flex align-items-end">
-              <Button 
-                type="submit" 
-                variant="success" 
+              <Button
+                type="submit"
+                variant="success"
                 className="w-100 mb-3"
                 disabled={carregando}
               >
@@ -159,16 +159,14 @@ const Usuarios = () => {
               </Button>
             </Col>
           </Row>
-          <Form.Text className="text-muted">
-            * Campos obrigatórios | Senha padrão: 123456
-          </Form.Text>
+
         </Form>
       </Card>
 
       {/* Lista de Alunos */}
       <Card className="p-4 shadow-sm border-0">
         <h4 className="mb-4">📋 Lista de Alunos ({usuarios.length})</h4>
-        
+
         {carregando && !usuarios.length ? (
           <div className="text-center py-4">
             <Spinner animation="border" variant="primary" />
@@ -191,8 +189,8 @@ const Usuarios = () => {
                     <td>{u.nome}</td>
                     <td>{u.email || '-'}</td>
                     <td>
-                      <Button 
-                        variant="outline-danger" 
+                      <Button
+                        variant="outline-danger"
                         size="sm"
                         onClick={() => {
                           setUsuarioParaExcluir(u);
@@ -225,7 +223,7 @@ const Usuarios = () => {
         <Modal.Body>
           {usuarioParaExcluir && (
             <p>
-              Tem certeza que deseja excluir o aluno <strong>{usuarioParaExcluir.nome}</strong> 
+              Tem certeza que deseja excluir o aluno <strong>{usuarioParaExcluir.nome}</strong>
               (RA: <strong>{usuarioParaExcluir.ra}</strong>)?
             </p>
           )}
@@ -234,8 +232,8 @@ const Usuarios = () => {
           <Button variant="secondary" onClick={() => setShowModal(false)}>
             Cancelar
           </Button>
-          <Button 
-            variant="danger" 
+          <Button
+            variant="danger"
             onClick={excluirAluno}
             disabled={carregando}
           >
